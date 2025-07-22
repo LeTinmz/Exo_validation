@@ -16,14 +16,14 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class Recipe {
-    @NotNull
+
     private UUID id;
-    @Min(5)
-    private String name;
     @NotBlank
-    private List<String> ingredients;
+    private String name;
+
+    private String ingredients;
     @NotBlank
     private String instructions;
     @NotNull
-    private Category category;
+    private UUID category_id;
 }

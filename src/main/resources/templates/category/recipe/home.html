@@ -1,10 +1,180 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Recettes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .recipe-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #fafafa;
+            transition: transform 0.2s;
+        }
+        .recipe-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .recipe-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .recipe-category {
+            background-color: #3498db;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        .recipe-ingredients {
+            margin: 10px 0;
+        }
+        .recipe-ingredients h4 {
+            color: #27ae60;
+            margin-bottom: 8px;
+        }
+        .ingredients-list {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 8px 0;
+        }
+        .recipe-instructions {
+            margin: 15px 0;
+        }
+        .recipe-instructions h4 {
+            color: #e74c3c;
+            margin-bottom: 8px;
+        }
+        .instructions-text {
+            line-height: 1.6;
+            color: #555;
+        }
+        .actions {
+            margin-top: 15px;
+            text-align: right;
+        }
+        .btn {
+            padding: 8px 16px;
+            margin-left: 5px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn-detail {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-edit {
+            background-color: #f39c12;
+            color: white;
+        }
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+        .no-recipes {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            margin: 40px 0;
+        }
+        .add-recipe {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn-add {
+            background-color: #27ae60;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+        }
+    </style>
 </head>
 <body>
-    <h1>coucou</h1>
+<div class="container">
+    <h1>🍽️ Liste des Recettes</h1>
+
+    <div class="add-recipe">
+        <a href="/recipe/add" class="btn btn-add">➕ Ajouter une nouvelle recette</a>
+    </div>
+
+    <div th:if="${#lists.isEmpty(recipes)}" class="no-recipes">
+        <p>Aucune recette trouvée. Commencez par en ajouter une !</p>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(recipes)}" class="recipe-grid">
+        <div th:each="recipe : ${recipes}" class="recipe-card">
+            <div class="recipe-title" th:text="${recipe.name}">Nom de la recette</div>
+
+            <!-- Liaison avec la catégorie via la liste des catégories -->
+            <div class="recipe-category">
+                <th:block th:each="category : ${categories}">
+                    <span th:if="${category.id == recipe.category_id}" th:text="${category.name}"></span>
+                </th:block>
+                <span th:unless="${#lists.exists(categories, category -> category.id == recipe.category_id)}">Catégorie inconnue</span>
+            </div>
+
+            <div class="recipe-ingredients">
+                <h4>🥕 Ingrédients :</h4>
+                <div class="ingredients-list">
+                    <div th:each="ingredient, iterStat : ${recipe.ingredients}">
+                        <span th:text="${ingredient}">Ingrédient</span>
+                        <span th:unless="${iterStat.last}">, </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-instructions">
+                <h4>📝 Instructions :</h4>
+                <div class="instructions-text" th:text="${recipe.instructions}">Instructions de préparation</div>
+            </div>
+
+            <div class="actions">
+                <a th:href="@{/recipe/detail/{id}(id=${recipe.id})}" class="btn btn-detail">👁️ Voir</a>
+                <a th:href="@{/recipe/update/{id}(id=${recipe.id})}" class="btn btn-edit">✏️ Modifier</a>
+                <a th:href="@{/recipe/delete/{id}(id=${recipe.id})}"
+                   class="btn btn-delete"
+                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette recette ?')">🗑️ Supprimer</a>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

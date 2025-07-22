@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Category</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container my-5">
+  <h2>Update Category</h2>
+  <form th:action="@{/category/update}" th:object="${category}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <div class="form-group">
+      <label for="name">Category Name:</label>
+      <input type="text" th:field="*{name}" id="name" class="form-control" placeholder="Category Name">
+      <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></p>
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <input type="text" th:field="*{description}" id="description" class="form-control" placeholder="Description">
+      <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></p>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Category</button>
+    <a href="/category/list" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Recipe Detail</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container my-5">
+  <h2>Recipe Details</h2>
+  <div th:if="${recipe}">
+    <p><strong>ID:</strong> <span th:text="${recipe.id}"></span></p>
+    <p><strong>Name:</strong> <span th:text="${recipe.name}"></span></p>
+    <p><strong>Ingredients:</strong></p>
+    <ul>
+      <li th:each="ingredient : ${recipe.ingredients}" th:text="${ingredient}"></li>
+    </ul>
+    <p><strong>Instructions:</strong> <span th:text="${recipe.instructions}"></span></p>
+    <p><strong>Category </strong> <span th:text="${category.name}"></span></p>
+    <a th:href="@{/recipe/update/{id}(id=${recipe.id})}" class="btn btn-warning">Edit</a>
+    <a href="/recipe/list" class="btn btn-secondary">Back to List</a>
+  </div>
+  <div th:unless="${recipe}" class="alert alert-warning">
+    Recipe not found.
+  </div>
+</div>
+</body>
+</html>

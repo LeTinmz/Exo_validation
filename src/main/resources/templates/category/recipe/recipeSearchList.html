@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe Search Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container my-5">
+    <h2>Recipe Search Results</h2>
+
+    <form th:action="@{/recipe/search}" method="get" class="form-inline mb-3">
+        <input type="text" name="searchedName" class="form-control mr-sm-2" placeholder="Search by name">
+        <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+    </form>
+
+    <div th:if="${recipes.isEmpty()}" class="alert alert-info">
+        No recipes found matching your search.
+    </div>
+
+    <table class="table table-bordered" th:unless="${recipes.isEmpty()}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Category ID</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="recipe : ${recipes}">
+            <td th:text="${recipe.id}"></td>
+            <td th:text="${recipe.name}"></td>
+            <td th:text="${recipe.category_id}"></td>
+            <td>
+                <a th:href="@{/recipe/detail/{id}(id=${recipe.id})}" class="btn btn-info btn-sm">View</a>
+                <a th:href="@{/recipe/update/{id}(id=${recipe.id})}" class="btn btn-warning btn-sm">Edit</a>
+                <a th:href="@{/recipe/delete/{id}(id=${recipe.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this recipe?');">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/recipe/list" class="btn btn-secondary">Back to All Recipes</a>
+</div>
+</body>
+</html>

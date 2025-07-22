@@ -27,22 +27,25 @@ import java.util.UUID;
         @GetMapping("/add")
         public String addCategory(Model model){
             model.addAttribute("category", new Category());
-            return "student/register";
+            return "category/recipe/categoryForm";
         }
 
-        @PostMapping("/add")
-        public String addCategory(@Validated Category category, BindingResult result){
-        if(result.hasErrors())
-            return "category/recipe/home";
+    @PostMapping("/add")
+    public String addCategory(@Validated Category category, BindingResult result) {
+        if (result.hasErrors()) {
 
-        return "redirect:/list";
+            return "category/recipe/categoryForm";
         }
+
+        categoryService.createCategory(category);
+        return "redirect:/category/list";
+    }
         // http://localhost:8080/list
         @GetMapping("/list")
         public String getAllCategories(Model model){
             List<Category> categories = categoryService.getAllCategories();
             model.addAttribute("categories", categories);
-            return "student/studentList";
+            return "category/recipe/categoryList";
         }
 
         // http://localhost:8080/detail/ac96bc35-0bd1-4449-8730-fcd3082432d1 (attention exemple seulement)
@@ -50,14 +53,14 @@ import java.util.UUID;
         public String getCategory(@PathVariable("id") UUID id, Model model){
             Category category = categoryService.getCategoryById(id);
             model.addAttribute("category", category);
-            return "student/studentDetail";
+            return "category/recipe/categoryDetail";
         }
 
         @GetMapping("/search")
         public String searchCategory(@RequestParam String searchedName, Model model){
             List<Category> categories = categoryService.getCategoriesByName(searchedName);
             model.addAttribute("categories", categories);
-            return "student/studentSearchList";
+            return "category/recipe/categorySearchList";
         }
 
         // http://localhost:8080/update/ac96bc35-0bd1-4449-8730-fcd3082432d1 (attention exemple seulement)
@@ -65,23 +68,26 @@ import java.util.UUID;
         public String updateCategory(@PathVariable UUID id, Model model){
             Category category = categoryService.getCategoryById(id);
             model.addAttribute("category", category);
-            return "student/studentUpdate";
+            return "category/recipe/categoryUpdate";
         }
 
 
 
         @PostMapping("/update")
-        public String updateCategory(@Validated Category category){
+        public String updateCategory(@Validated Category category, BindingResult result){
+            if(result.hasErrors()) {
+
+                return "category/recipe/categoryUpdate";
+            }
             if(category.getId() != null)
                 categoryService.updateCategory(category.getId(), category);
-
-            return "redirect:/list";
+            return "redirect:/category/list";
         }
 
         @GetMapping("/delete/{id}")
         public String deleteCategory(@PathVariable UUID id){
             categoryService.deleteCategoryById(id);
-            return "redirect:/list";
+            return "redirect:/category/list";
         }
     }
 

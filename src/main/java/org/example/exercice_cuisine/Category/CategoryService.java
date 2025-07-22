@@ -32,9 +32,7 @@ public class CategoryService {
         return categories.values().stream().toList();
     }
 
-    public Category getSingleCategoryByName(String searchedName){
 
-    }
     public List<Category> getCategoriesByName(String searchedName) {
         if(searchedName == null || searchedName.isEmpty())
             return new ArrayList<>();

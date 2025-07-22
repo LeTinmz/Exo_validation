@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Category Detail</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container my-5">
+  <h2>Category Details</h2>
+  <div th:if="${category}">
+    <p><strong>ID:</strong> <span th:text="${category.id}"></span></p>
+    <p><strong>Name:</strong> <span th:text="${category.name}"></span></p>
+    <p><strong>Description:</strong> <span th:text="${category.description}"></span></p>
+    <a th:href="@{/category/update/{id}(id=${category.id})}" class="btn btn-warning">Edit</a>
+    <a href="/category/list" class="btn btn-secondary">Back to List</a>
+  </div>
+  <div th:unless="${category}" class="alert alert-warning">
+    Category not found.
+  </div>
+</div>
+</body>
+</html>
