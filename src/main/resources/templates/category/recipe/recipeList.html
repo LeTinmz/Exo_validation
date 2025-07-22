@@ -22,7 +22,7 @@
   <table class="table table-bordered" th:unless="${recipes.isEmpty()}">
     <thead>
     <tr>
-      <th>ID</th>
+
       <th>Name</th>
       <th>Category</th>
       <th>Actions</th>
@@ -30,7 +30,7 @@
     </thead>
     <tbody>
     <tr th:each="recipe : ${recipes}">
-      <td th:text="${recipe.id}"></td>
+
       <td th:text="${recipe.name}"></td>
       <td>
         <span th:each="category : ${categories}" th:if="${category.id.equals(recipe.category_id)}" th:text="${category.name}"></span>

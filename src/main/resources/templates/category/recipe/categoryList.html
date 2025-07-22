@@ -22,7 +22,7 @@
     <table class="table table-bordered" th:unless="${categories.isEmpty()}">
         <thead>
         <tr>
-            <th>ID</th>
+
             <th>Name</th>
             <th>Description</th>
             <th>Actions</th>
@@ -30,7 +30,7 @@
         </thead>
         <tbody>
         <tr th:each="category : ${categories}">
-            <td th:text="${category.id}"></td>
+
             <td th:text="${category.name}"></td>
             <td th:text="${category.description}"></td>
             <td>

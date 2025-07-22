@@ -33,7 +33,6 @@ import java.util.UUID;
     @PostMapping("/add")
     public String addCategory(@Validated Category category, BindingResult result) {
         if (result.hasErrors()) {
-
             return "category/recipe/categoryForm";
         }
 
