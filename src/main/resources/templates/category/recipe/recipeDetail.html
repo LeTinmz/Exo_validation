@@ -12,9 +12,10 @@
     <p><strong>ID:</strong> <span th:text="${recipe.id}"></span></p>
     <p><strong>Name:</strong> <span th:text="${recipe.name}"></span></p>
     <p><strong>Ingredients:</strong></p>
-    <ul>
-      <li th:each="ingredient : ${recipe.ingredients}" th:text="${ingredient}"></li>
-    </ul>
+
+      <p th:text = "${recipe.ingredients}"></p>
+
+
     <p><strong>Instructions:</strong> <span th:text="${recipe.instructions}"></span></p>
     <p><strong>Category </strong> <span th:text="${category.name}"></span></p>
     <a th:href="@{/recipe/update/{id}(id=${recipe.id})}" class="btn btn-warning">Edit</a>
